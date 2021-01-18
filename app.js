@@ -1,6 +1,11 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 const colors = document.getElementsByClassName("jsColors");
+const pickColorBtn = document.getElementById("pickColorBtn");
+const modal = document.querySelector(".mordal");
+const colorPicker = document.querySelector("#colorPicker");
+const okBtn = document.getElementById("confirm");
+const cancelBtn = document.getElementById("cancel");
 const range = document.getElementById("brushSizeRange");
 const modeBtn = document.getElementById("jsMode");
 const saveBtn = document.getElementById("jsSave");
@@ -23,6 +28,7 @@ ctx.lineWidth = "2.5";
 //변하는 변수
 let painting = false;
 let filling = false;
+let colorCode = colorPicker.value;
 
 function stopPainting(){
     painting = false;
@@ -45,6 +51,7 @@ function onMouseMove(event){
 
 }
 
+//색상 변경 이벤트
 function changeColor(event){
     const color = event.target.style.backgroundColor;
     ctx.strokeStyle = color;
@@ -86,7 +93,33 @@ function handleRightClick(event){
     event.preventDefault();
 }
 
+function showColorPicker(){
+    modal.style.visibility = 'visible';
+}
 
+function hideColorPicker(){
+    modal.style.visibility = 'hidden';
+}
+
+function updateColor(event){
+    colorCode = event.target.value;
+}
+
+function handleColorConfirm(){
+    addNewColor(colorCode);
+    hideColorPicker();
+}
+
+//새 색상 원이 팔레트에 추가됨
+function addNewColor(color){
+    const pallete = document.querySelector('.controls_colors');
+    const newColor = document.createElement('div');
+    newColor.className = 'controls_color jsColors';
+    newColor.style.backgroundColor = color;
+    pallete.insertBefore(newColor, pallete.lastElementChild);
+
+    newColor.addEventListener("click", changeColor);
+}
 
 if(canvas){
     canvas.addEventListener("mousemove", onMouseMove);
@@ -112,3 +145,20 @@ if(modeBtn){
 if(saveBtn){
     saveBtn.addEventListener("click", handleSaveClick);
 };
+
+if(pickColorBtn){
+    pickColorBtn.addEventListener("click", showColorPicker);
+};
+
+if(colorPicker){
+    colorPicker.addEventListener("change", updateColor);
+}
+
+if(cancelBtn){
+    cancelBtn.addEventListener("click", hideColorPicker);
+};
+
+if(okBtn){
+    okBtn.addEventListener("click", handleColorConfirm);
+};
+

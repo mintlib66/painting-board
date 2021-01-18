@@ -10,6 +10,7 @@
     <canvas id="jsCanvas" class="canvas"></canvas>
     <div class="controls">
         <div class="controls_range">
+            <div><span class="controls_range_span">brush size</span></div>
             <input type="range" id="brushSizeRange" min="0.1" max="10.0" value="2.5" step="0.1" />
         </div>
         <div class="controls_btns">
@@ -26,8 +27,20 @@
             <div class="controls_color jsColors" style="background-color: skyblue;"></div>
             <div class="controls_color jsColors" style="background-color: blue;"></div>
             <div class="controls_color jsColors" style="background-color: purple;"></div>
+            <div class="controls_color" id="pickColorBtn">+</div>
         </div>
     </div>
+    <div class="mordal">
+        <span>Pick Color</span>
+        <input type="color" class="" id="colorPicker"> 
+        <span id="colorCodePick"></span>
+        <button id="confirm">OK</button>
+        <button id="cancel">close</button>
+    </div>
+    <div class="source_site">
+        Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+    </div>
+    
     <script src="app.js"></script>
 </body>
 </html>
