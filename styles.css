@@ -9,7 +9,75 @@ body{
     align-items: center;
     padding: 50px;
 }
+/* 공통 사용 컴포넌트 */
+.btns button{
+    all:unset;
+    cursor: pointer;
+    background-color: white;
+    height: 25px;
+    width: 80px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(50,50,93, 0.3);
+    border: 2px solid rgba(0,0,0,0.2);
+    color: rgba(0,0,0,0.8);
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 12px;
+}
+.btns button:hover{
+    transform: scale(1.1);
+    font-weight: bold;
+}
+.icon_btns button{
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+.icon_btns button:hover{
+    transform: scale(1.1);
+}
+.icon_img {
+    width: 25px;
+}
 
+/* 상단 헤더 */
+.option {
+    position:absolute;
+    top: 0;
+    width: 100%;
+}
+.option_btns {
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+}
+
+/* 콘텐츠 */
+.workspace {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 좌측 툴바 */
+.tools_btns {
+    display: flex;
+    flex-direction: column;
+}
+.tools_btns button{
+    height: 40px;
+}
+
+.tools_btns button.selected{
+    background-color: rgb(202, 202, 202);
+    font-weight: bold;
+}
+
+/* 가운데 캔버스 */
 .canvas{
     width: 600px;
     height: 600px;
@@ -18,13 +86,20 @@ body{
     box-shadow: 0 4px 6px rgba(50,50,93, 0.3);
 }
 
+/* 우측 컨트롤바 */
 .controls{
-    margin-top: 50px;
+    margin-top: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+.constrols_navigator{
+    margin-bottom: 20px;
+    width: 180px;
+    height: 30px;
+    background-color: black;
+}
 .controls_range{
     display: flex;
     flex-direction: row;
@@ -46,31 +121,28 @@ body{
     margin-bottom: 20px;
 }
 
-.controls_btns button{
-    all:unset;
-    cursor: pointer;
-    background-color: white;
-    padding: 5px 0px;
-    width: 80px;
-    text-align: center;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(50,50,93, 0.3);
-    border: 2px solid rgba(0,0,0,0.2);
-    color: rgba(0,0,0,0.8);
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 12px;
-}
 
-.controls_colors{
+.controls .controls_colors{
+    width: 200px;
+    height: 300px;
+    padding: 10px 0;
     display: flex;
+    justify-content: center;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    overflow-x: auto;
+    overflow-y: auto;
 }
 
 .controls_colors .controls_color{
     width: 50px;
     height: 50px;
+    margin: 1px;
     border-radius: 24px;
     box-shadow: 0 2px 3px rgba(50,50,93, 0.3);
+}
+.controls_colors .controls_color:hover{
+    transform: scale(1.1);
 }
 
 #pickColorBtn {
@@ -81,38 +153,24 @@ body{
     cursor: pointer;
 }
 
-.source_site {
-    margin-top: 20px;
-    
-    font-weight: 600;
-    font-size: 10px;
-}
-
-.mordal {
-    margin-top: 10px;
-    display: inline-block;  
-    background-color: white;
-    border: 1px solid black;
+.control_colorPicker {
+    display: flex;
+    align-items: center;
     padding: 10px;
     text-align: center;
-
-    visibility: hidden;
-    z-index: 2;
 }
 
-.mordal span{
+.control_colorPicker span{
     font-weight: 600;
     font-size: 12px;
+    margin-right: 10px;
+}
+.function_btns {
+    margin-top: 80px;
 }
 
-.mordal #colorPicker{
-    display:block;
-    
-}
-
-.mordal button{
-    margin : 5px 5px 0px 5px;
-    text-align: center;
+.source_site {
+    margin-top: 20px;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 10px;
 }

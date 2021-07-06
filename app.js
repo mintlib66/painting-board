@@ -1,14 +1,15 @@
+/* ---------------- 변수 선언 --------------- */
+const resetBtn = document.getElementById("jsReset");
+const saveBtn = document.getElementById("jsSave");
+
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 const colors = document.getElementsByClassName("jsColors");
 const pickColorBtn = document.getElementById("pickColorBtn");
-const modal = document.querySelector(".mordal");
 const colorPicker = document.querySelector("#colorPicker");
-const okBtn = document.getElementById("confirm");
-const cancelBtn = document.getElementById("cancel");
-const range = document.getElementById("brushSizeRange");
+const sizeRange = document.getElementById("brushSizeRange");
 const modeBtn = document.getElementById("jsMode");
-const saveBtn = document.getElementById("jsSave");
+const navigator = document.querySelector(".constrols_navigator");
 
 const INITIAL_COLOR = "black";
 const CANVAS_SIZE = 600;
@@ -25,26 +26,28 @@ ctx.strokeStyle = INITIAL_COLOR;
 ctx.fillStyle = INITIAL_COLOR;
 ctx.lineWidth = "2.5";
 
-//변하는 변수
 let painting = false;
 let filling = false;
 let colorCode = colorPicker.value;
 
-function stopPainting(){
+
+/* ---------------- 함수 --------------- */
+
+function stopPainting() {
     painting = false;
 }
 
-function startPainting(){
+function startPainting() {
     painting = true;
 }
 
-function onMouseMove(event){
+function onMouseMove(event) {
     const x = event.offsetX;
     const y = event.offsetY;
-    if(!painting){
+    if (!painting) {
         ctx.beginPath();
         ctx.moveTo(x, y);
-    }else{
+    } else {
         ctx.lineTo(x, y);
         ctx.stroke();
     }
@@ -52,20 +55,21 @@ function onMouseMove(event){
 }
 
 //색상 변경 이벤트
-function changeColor(event){
+function changeColor(event) {
     const color = event.target.style.backgroundColor;
     ctx.strokeStyle = color;
     ctx.fillStyle = color;
+    navigator.style.backgroundColor = color;
 }
 
-function handleRangeChange(event){
+function handleRangeChange(event) {
     const strokeSize = event.target.value;
     ctx.lineWidth = strokeSize;
-     
+
 }
 
-function handleModeClick(event){
-    if(filling === true){
+function handleModeClick(event) {
+    if (filling === true) {
         filling = false;
         modeBtn.innerText = "Fill";
     } else {
@@ -73,8 +77,13 @@ function handleModeClick(event){
         modeBtn.innerText = "Paint";
     }
 }
-
-function handleSaveClick(){
+function resetClick() {
+    const temp = ctx.fillStyle;
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+    ctx.fillStyle = temp;
+}
+function handleSaveClick() {
     const image = canvas.toDataURL("image/png");
     const link = document.createElement("a");
 
@@ -83,35 +92,29 @@ function handleSaveClick(){
     link.click();
 }
 
-function handleCanvasClick(){
-    if(filling === true){
+function handleCanvasClick() {
+    if (filling === true) {
         ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-    } 
+    }
 }
 
-function handleRightClick(event){
+//캔버스 내 우클릭 
+function handleCanvasRightClick(event) {
     event.preventDefault();
 }
 
-function showColorPicker(){
-    modal.style.visibility = 'visible';
-}
 
-function hideColorPicker(){
-    modal.style.visibility = 'hidden';
-}
-
-function updateColor(event){
+function updateColor(event) {
     colorCode = event.target.value;
 }
 
-function handleColorConfirm(){
+function handleColorConfirm() {
     addNewColor(colorCode);
     hideColorPicker();
 }
 
 //새 색상 원이 팔레트에 추가됨
-function addNewColor(color){
+function addNewColor(color) {
     const pallete = document.querySelector('.controls_colors');
     const newColor = document.createElement('div');
     newColor.className = 'controls_color jsColors';
@@ -121,44 +124,44 @@ function addNewColor(color){
     newColor.addEventListener("click", changeColor);
 }
 
-if(canvas){
-    canvas.addEventListener("mousemove", onMouseMove);
-    canvas.addEventListener("mousedown", startPainting);
-    canvas.addEventListener("mouseup", stopPainting);
-    canvas.addEventListener("mouseleave", stopPainting);
-    canvas.addEventListener("click", handleCanvasClick);
-    canvas.addEventListener("contextmenu", handleRightClick);
+/* ---------------- 이벤트 리스너 --------------- */
+if (resetBtn) {
+    resetBtn.addEventListener("click", resetClick);
 };
-
-if(colors){
-    Array.from(colors).forEach(color => color.addEventListener("click", changeColor));
-};
-
-if(range){
-    range.addEventListener("input", handleRangeChange);
-};
-
-if(modeBtn){
-    modeBtn.addEventListener("click", handleModeClick);
-};
-
-if(saveBtn){
+if (saveBtn) {
     saveBtn.addEventListener("click", handleSaveClick);
 };
 
-if(pickColorBtn){
-    pickColorBtn.addEventListener("click", showColorPicker);
+if (canvas) {
+    //펜
+    canvas.addEventListener("mousemove", onMouseMove);
+    canvas.addEventListener("mousedown", startPainting);
+    canvas.addEventListener("mouseup", stopPainting);
+    //공통
+    canvas.addEventListener("mouseleave", stopPainting);
+    canvas.addEventListener("click", handleCanvasClick);
+    canvas.addEventListener("contextmenu", handleCanvasRightClick);
 };
 
-if(colorPicker){
+if (colors) {
+    Array.from(colors).forEach(color => color.addEventListener("click", changeColor));
+};
+
+if (sizeRange) {
+    sizeRange.addEventListener("input", handleRangeChange);
+};
+
+if (modeBtn) {
+    modeBtn.addEventListener("click", handleModeClick);
+};
+
+if (colorPicker) {
     colorPicker.addEventListener("change", updateColor);
-}
-
-if(cancelBtn){
-    cancelBtn.addEventListener("click", hideColorPicker);
 };
 
-if(okBtn){
-    okBtn.addEventListener("click", handleColorConfirm);
+if (pickColorBtn) {
+    pickColorBtn.addEventListener("click", handleColorConfirm);
 };
+
+
 
