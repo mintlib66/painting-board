@@ -1,72 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
     <title>painting board</title>
     <script defer src="app.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <!-- 상단 헤더 바 : 옵션 -->
     <header class="option">
-        <div class="icon_btns option_btns">
-            <button id="jsSetting">
-                <img src="./icons/gear.png" alt="setting" class="icon_img">
-            </button>
-        </div>
+      <div class="icon_btns option_btns">
+        <button id="jsSetting">
+          <img src="./icons/gear.png" alt="setting" class="icon_img" />
+        </button>
+      </div>
     </header>
 
     <section class="workspace">
-        <!-- 좌측 : 툴 선택 -->
-        <div class="tools">
-            <div class="btns tools_btns">
-                <button id="jsMode">Fill</button>
-            </div>
+      <!-- 좌측 : 툴 선택 -->
+      <div class="tools">
+        <div class="btns tools_btns">
+          <button id="jsMode">Fill</button>
         </div>
-        <!-- 중앙 : 캔버스 -->
-        <div>
-            <canvas id="jsCanvas" class="canvas"></canvas>
+      </div>
+      <!-- 중앙 : 캔버스 -->
+      <div>
+        <canvas id="jsCanvas" class="canvas"></canvas>
+      </div>
+      <!-- 우측 : 색상 및 기능 -->
+      <div class="controls">
+        <div class="constrols_navigator"></div>
+        <div class="controls_range">
+          <div><span class="controls_range_span">size</span></div>
+          <input
+            type="range"
+            id="brushSizeRange"
+            min="0.1"
+            max="10.0"
+            value="2.5"
+            step="0.1"
+          />
         </div>
-        <!-- 우측 : 색상 및 기능 -->
-        <div class="controls">
-            <div class="constrols_navigator"></div>
-            <div class="controls_range">
-                <div><span class="controls_range_span">size</span></div>
-                <input type="range" id="brushSizeRange" min="0.1" max="10.0" value="2.5" step="0.1" />
-            </div>
-            
-            <div class="controls_colors" id="jsColors">
-                <div class="controls_color jsColors" style="background-color: black;"></div>
-                <div class="controls_color jsColors" style="background-color: gray;"></div>
-                <div class="controls_color jsColors" style="background-color: white;"></div>
-                <div class="controls_color jsColors" style="background-color: red;"></div>
-                <div class="controls_color jsColors" style="background-color: orange;"></div>
-                <div class="controls_color jsColors" style="background-color: yellow;"></div>
-                <div class="controls_color jsColors" style="background-color: greenyellow;"></div>
-                <div class="controls_color jsColors" style="background-color: green;"></div>
-                <div class="controls_color jsColors" style="background-color: skyblue;"></div>
-                <div class="controls_color jsColors" style="background-color:dodgerblue;"></div>
-                <div class="controls_color jsColors" style="background-color:darkviolet;"></div>
-                <div class="controls_color jsColors" style="background-color: purple;"></div>
-                <div class="controls_color jsColors" style="background-color: pink;"></div>
-                <div class="controls_color" id="pickColorBtn">+</div>
-            </div>
-            <div class="control_colorPicker">
-                <span>Add New Color</span>
-                <input type="color" class="" id="colorPicker"> 
-                <span id="colorCodePick"></span>
-            </div>
 
-            <div class="btns function_btns">
-                <button id="jsReset">Reset</button>
-                <button id="jsSave">Save</button>
-            </div>
+        <div class="controls_colors" id="jsColors">
+          <div
+            class="controls_color jsColors"
+            style="background-color: black"
+          ></div>
+          <div
+            class="controls_color jsColors"
+            style="background-color: gray"
+          ></div>
+          <div
+            class="controls_color jsColors"
+            style="background-color: white"
+          ></div>
+          <div
+            class="controls_color jsColors"
+            style="background-color: red"
+          ></div>
+          <div
+            class="controls_color jsColors"
+            style="background-color: orange"
+          ></div>
+          <div
+            class="controls_color jsColors"
+            style="background-color: yellow"
+          ></div>
+          <div
+            class="controls_color jsColors"
+            style="background-color: greenyellow"
+          ></div>
+          <div
+            class="controls_color jsColors"
+            style="background-color: green"
+          ></div>
+          <div
+            class="controls_color jsColors"
+            style="background-color: skyblue"
+          ></div>
+          <div
+            class="controls_color jsColors"
+            style="background-color: dodgerblue"
+          ></div>
+          <div
+            class="controls_color jsColors"
+            style="background-color: darkviolet"
+          ></div>
+          <div
+            class="controls_color jsColors"
+            style="background-color: purple"
+          ></div>
+          <div
+            class="controls_color jsColors"
+            style="background-color: pink"
+          ></div>
+          <div class="controls_color" id="pickColorBtn">+</div>
         </div>
+        <div class="control_colorPicker">
+          <span>Add New Color</span>
+          <input type="color" class="" id="colorPicker" />
+          <span id="colorCodePick"></span>
+        </div>
+
+        <div class="btns function_btns">
+          <button id="jsReset">Reset</button>
+          <button id="jsSave">Save</button>
+        </div>
+      </div>
     </section>
-    
+
     <footer class="source_site">
-        Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+      Icons made by
+      <a href="https://www.flaticon.com/authors/freepik" title="Freepik"
+        >Freepik</a
+      >
+      from
+      <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
     </footer>
-</body>
+  </body>
 </html>
