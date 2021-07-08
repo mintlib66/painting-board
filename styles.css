@@ -7,7 +7,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 50px;
+  padding: 50px 20px;
 }
 /* 공통 사용 컴포넌트 */
 .btns button {
@@ -115,16 +115,21 @@ body {
 }
 
 /* 좌측 툴바 */
+.tools {
+  padding: 15px;
+}
 .tools_btns {
   display: flex;
   flex-direction: column;
 }
 .tools_btns button {
+  margin: 3px;
   height: 40px;
 }
 
 .tools_btns button.selected {
-  background-color: rgb(202, 202, 202);
+  background-color: rgb(218, 218, 218);
+  transform: scale(1.1);
   font-weight: bold;
 }
 

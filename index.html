@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
     <title>painting board</title>
-    <script defer src="app.js"></script>
   </head>
   <body>
     <!-- 상단 헤더 바 : 옵션 -->
@@ -21,7 +20,11 @@
       <!-- 좌측 : 툴 선택 -->
       <div class="tools">
         <div class="btns tools_btns">
-          <button id="jsMode">Fill</button>
+          <button id="jsTool_pen" class="tool selected">Pen</button>
+          <button id="jsTool_pen_r" class="tool">Round Pen</button>
+          <button id="jsTool_fill" class="tool">Fill</button>
+          <button id="jsTool_square" class="tool">Squre</button>
+          <button id="jsTool_square_fill" class="tool">Squre Fill</button>
         </div>
       </div>
       <!-- 중앙 : 캔버스 -->
@@ -42,7 +45,17 @@
             step="0.1"
           />
         </div>
-
+        <div class="controls_range">
+          <div><span class="controls_range_span">opacity</span></div>
+          <input
+            type="range"
+            id="opacityRange"
+            min="0.0"
+            max="1.0"
+            value="1.0"
+            step="0.01"
+          />
+        </div>
         <div class="controls_colors" id="jsColors">
           <div
             class="controls_color jsColors"
@@ -119,5 +132,6 @@
       from
       <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
     </footer>
+    <script src="app.js"></script>
   </body>
 </html>
