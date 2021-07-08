@@ -8,6 +8,7 @@ const toolBtn_pen_round = document.getElementById("jsTool_pen_r");
 const toolBtn_fill = document.getElementById("jsTool_fill");
 const toolBtn_square = document.getElementById("jsTool_square");
 const toolBtn_square_fill = document.getElementById("jsTool_square_fill");
+const toolBtn_square_fill_eraser = document.getElementById("jsTool_square_fill_eraser");
 
 const sizeRange = document.getElementById("brushSizeRange");
 const opacityRange = document.getElementById("opacityRange");
@@ -109,6 +110,12 @@ function stopDrawingFill(event){
     ctx.fillRect(x, y, start_x - x, start_y - y);
     drawingSquare = false
 }
+function stopDrawingFillEraser(event){
+    const x = event.offsetX;
+    const y = event.offsetY;
+    ctx.clearRect(x, y, start_x - x, start_y - y);
+    drawingSquare = false
+}
 
 function onMouseMove(event) {
     const x = event.offsetX;
@@ -180,43 +187,37 @@ function toolBtnClick(event){
 }
 //툴 변경
 function handleToolChange(id) {
+    OffEventPen();
+    OffEventFill();
+    OffEventShape();
+    OffEventShapeFill();
+    OffEventShapeFillEraser();
     switch(id){
         case "jsTool_pen": 
             tool = "pen";
             handlePentip("butt");
             OnEventPen();
-            OffEventFill();
-            OffEventShape();
-            OffEventShapeFill();
             break;
         case "jsTool_pen_r":
             tool = "r_pen";
             handlePentip("round");
             OnEventPen();
-            OffEventFill();
-            OffEventShape();
-            OffEventShapeFill();
             break;
         case "jsTool_fill":
             tool = "fill"; 
-            OffEventPen();
             OnEventFill(); 
-            OffEventShape();
-            OffEventShapeFill();
             break;
         case "jsTool_square":
             tool = "square";
-            OffEventPen();
-            OffEventFill();
             OnEventShape();
-            OffEventShapeFill();
             break;
         case "jsTool_square_fill":
             tool = "square_fill";
-            OffEventPen();
-            OffEventFill();
-            OnEventShape();
             OnEventShapeFill();
+            break;
+        case "jsTool_square_fill_eraser":
+            tool = "square_fill_eraser";
+            OnEventShapeFillEraser();
             break;
     }
 }
@@ -254,6 +255,14 @@ function OnEventShapeFill(){
 function OffEventShapeFill(){
     canvas.removeEventListener("mousedown", startDrawing);
     canvas.removeEventListener("mouseup", stopDrawingFill);
+}
+function OnEventShapeFillEraser(){
+    canvas.addEventListener("mousedown", startDrawing);
+    canvas.addEventListener("mouseup", stopDrawingFillEraser);
+}
+function OffEventShapeFillEraser(){
+    canvas.removeEventListener("mousedown", startDrawing);
+    canvas.removeEventListener("mouseup", stopDrawingFillEraser);
 }
 //브러시 모양 변경
 function handlePentip(tip){
