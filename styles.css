@@ -40,6 +40,27 @@ body {
 .icon_img {
   width: 25px;
 }
+.ctx_menu {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 1px solid gray;
+  z-index: 5;
+}
+.ctx_menu_list li {
+  display: block;
+  width: 100%;
+  padding: 8px 15px;
+  box-sizing: border-box;
+  border-bottom: 1px solid lightgray;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 12px;
+}
+.ctx_menu_list li:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
 
 /* 상단 헤더 */
 .option {

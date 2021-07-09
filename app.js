@@ -19,7 +19,7 @@ const pickColorBtn = document.getElementById("pickColorBtn");
 const colorPicker = document.querySelector("#colorPicker");
 
 const settingBtn = document.getElementById("jsSetting");
-const resetBtn = document.getElementById("jsReset");
+const clearBtn = document.getElementById("jsClear");
 const saveBtn = document.getElementById("jsSave");
 
 const INITIAL_CANVAS_SIZE = 600;
@@ -133,7 +133,7 @@ function handleCanvasClick() {
     
 }
 //캔버스 내 우클릭 기능
-function handleCanvasRightClick(event) {
+function handleRightClick(event) {
     event.preventDefault();
 }
 
@@ -304,7 +304,40 @@ function addNewColor(color) {
     pallete.insertBefore(newColor, pallete.lastElementChild);
 
     newColor.addEventListener("click", changeColor);
+    newColor.addEventListener("contextmenu", handleColorRightClick);
 }
+//컬러 우클릭 - 컨텍스트창
+function handleColorRightClick(event) {
+    const targetColor = event.target;
+    event.preventDefault();
+
+    const ctxMenu = document.createElement("div");
+    ctxMenu.className = 'ctx_menu';
+    const ctxInner = `
+        <ul class="ctx_menu_list">
+            <li id="#color_delete">delete</li>
+        </ul>
+    `;
+    ctxMenu.innerHTML = ctxInner;
+
+    ctxMenu.style.left = event.pageX+'px';
+    ctxMenu.style.top = event.pageY+'px';
+    document.body.prepend(ctxMenu);
+
+    ctxMenu.addEventListener('click', () => deleteColor(targetColor));
+    ctxMenu.addEventListener('contextmenu', handleRightClick);
+    ctxMenu.addEventListener('mouseleave', closeCtxMenu);
+}
+//색상 삭제
+function deleteColor(targetColor){
+    targetColor.remove();
+    closeCtxMenu();
+}
+function closeCtxMenu(){
+    const ctxMenu = document.querySelector('.ctx_menu');
+    ctxMenu.remove();
+}
+
 
 function UpdateCanvasSize(){
     //input값 가져오기
@@ -328,7 +361,7 @@ function UpdateCanvasSize(){
 }
 
 //리셋 버튼 기능
-function resetClick() {
+function clearClick() {
     const temp_color = ctx.fillStyle;
     const temp_alpha = ctx.globalAlpha;
     ctx.fillStyle = "white";
@@ -351,24 +384,27 @@ function handleSaveClick() {
 /* ---------------- 이벤트 리스너 --------------- */
 if (canvas) {
     //공통
-    canvas.addEventListener("contextmenu", handleCanvasRightClick);
+    canvas.addEventListener("contextmenu", handleRightClick);
     canvas.addEventListener("mouseleave", stopPainting);
     
     //기본-펜 이벤트 활성화
     OnEventPen();   
 };
 
-if (resetBtn) {
-    resetBtn.addEventListener("click", resetClick);
+if (clearBtn) {
+    clearBtn.addEventListener("click", clearClick);
 };
 if (saveBtn) {
     saveBtn.addEventListener("click", handleSaveClick);
 };
 
 if (colors) {
-    Array.from(colors).forEach(color => color.addEventListener("click", changeColor));
+    Array.from(colors).forEach(color => {
+        color.addEventListener("click", changeColor);
+        color.addEventListener("contextmenu", handleColorRightClick);
+        }
+    );  
 };
-
 if (sizeRange) {
     sizeRange.addEventListener("input", handleSizeRangeChange);
 };
