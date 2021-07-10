@@ -315,7 +315,8 @@ function handleColorRightClick(event) {
     ctxMenu.className = 'ctx_menu';
     const ctxInner = `
         <ul class="ctx_menu_list">
-            <li id="#color_delete">delete</li>
+            <li id="color_delete">delete</li>
+            <li id="color_change">change</li>
         </ul>
     `;
     ctxMenu.innerHTML = ctxInner;
@@ -324,13 +325,19 @@ function handleColorRightClick(event) {
     ctxMenu.style.top = event.pageY+'px';
     document.body.prepend(ctxMenu);
 
-    ctxMenu.addEventListener('click', () => deleteColor(targetColor));
+    document.getElementById("color_delete").addEventListener('click', () => deletePalleteColor(targetColor));
+    document.getElementById("color_change").addEventListener('click', () => changePalleteColor(targetColor));
     ctxMenu.addEventListener('contextmenu', handleRightClick);
     ctxMenu.addEventListener('mouseleave', closeCtxMenu);
 }
 //색상 삭제
-function deleteColor(targetColor){
+function deletePalleteColor(targetColor){
     targetColor.remove();
+    closeCtxMenu();
+}
+//색상 변경
+function changePalleteColor(targetColor){
+    targetColor.style.backgroundColor = colorCode;
     closeCtxMenu();
 }
 function closeCtxMenu(){
