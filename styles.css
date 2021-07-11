@@ -179,15 +179,23 @@ body {
 }
 .controls_range {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
 }
-
+.controls_container {
+  display: flex;
+  justify-content: center;
+}
 .controls_range_span {
-  margin-right: 5px;
+  margin-right: 8px;
   text-transform: uppercase;
   font-weight: 600;
-  font-size: 10px;
+  font-size: 11px;
+}
+.controls_range_number {
+  width: 40px;
+  border: 1px gray;
+  font-size: 12px;
 }
 
 .controls .controls_range {

@@ -10,7 +10,9 @@ const toolBtn_square = document.getElementById("jsTool_square");
 const toolBtn_square_fill = document.getElementById("jsTool_square_fill");
 const toolBtn_square_fill_eraser = document.getElementById("jsTool_square_fill_eraser");
 
+const sizeNumber = document.getElementById("brushSizeNumber");
 const sizeRange = document.getElementById("brushSizeRange");
+const opacityNumber = document.getElementById("opacityNumber");
 const opacityRange = document.getElementById("opacityRange");
 
 const colors = document.getElementsByClassName("jsColors");
@@ -25,8 +27,11 @@ const saveBtn = document.getElementById("jsSave");
 const INITIAL_CANVAS_SIZE = 600;
 const MIN_CANVAS_SIZE = 50;
 const MAX_CANVAS_SIZE = 1500;
+
 const INITIAL_COLOR = "black";
 const INITIAL_SIZE = "2.5";
+const MIN_BRUSH_SIZE = "0.1";
+const MAX_BRUSH_SIZE = "10";
 const INITIAL_ALPHA = "1";
 
 //실제 픽셀배율 설정
@@ -270,15 +275,40 @@ function handlePentip(tip){
 }
 
 //브러시 크기 변경
+function handleSizeNumberChange(event) {
+    let sizeNum = event.target.value;
+    if(sizeNum > MAX_BRUSH_SIZE){
+        sizeNum = MAX_BRUSH_SIZE;
+    }else if(sizeNum < MIN_BRUSH_SIZE){
+        sizeNum = MIN_BRUSH_SIZE;
+    }
+    strokeSize = sizeNum;
+    brushSizeNumber.value = sizeNum;
+    brushSizeRange.value = sizeNum;
+    ctx.lineWidth = strokeSize;
+}
 function handleSizeRangeChange(event) {
     strokeSize = event.target.value;
+    brushSizeNumber.value = event.target.value;
     ctx.lineWidth = strokeSize;
 }
 //불투명도 변경
+function handleOpacityNumberChange(event) {
+    let opacityNum = event.target.value;
+    if(opacityNum > 1.0){
+        opacityNum = 1.0;
+    }else if(opacityNum < 0){
+        opacityNum = 0;
+    }
+    opacity = opacityNum;
+    opacityNumber.value = opacityNum;
+    opacityRange.value = opacityNum;
+    ctx.globalAlpha = opacity;
+}
 function handleOpacityRangeChange(event) {
     opacity = event.target.value;
+    opacityNumber.value = event.target.value;
     ctx.globalAlpha = opacity;
-    console.log(ctx.strokeStyle);
 }
 
 //색상 변경 이벤트
@@ -412,8 +442,14 @@ if (colors) {
         }
     );  
 };
+if (sizeNumber) {
+    sizeNumber.addEventListener("input", handleSizeNumberChange);
+};
 if (sizeRange) {
     sizeRange.addEventListener("input", handleSizeRangeChange);
+};
+if (opacityNumber) {
+    opacityNumber.addEventListener("input", handleOpacityNumberChange);
 };
 if (opacityRange) {
     opacityRange.addEventListener("input", handleOpacityRangeChange);
