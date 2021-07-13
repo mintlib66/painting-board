@@ -85,7 +85,7 @@ body {
   top: 0;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.6);
 }
 .modal_window {
   margin-top: 15%;
@@ -132,12 +132,12 @@ body {
 .workspace {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 /* 좌측 툴바 */
 .tools {
-  padding: 15px;
+  padding: 15px 10px;
 }
 .tools_btns {
   display: flex;
@@ -155,6 +155,9 @@ body {
 }
 
 /* 가운데 캔버스 */
+.canvasSpace {
+  margin: 15px;
+}
 .canvas {
   width: 600px;
   height: 600px;
@@ -165,17 +168,31 @@ body {
 
 /* 우측 컨트롤바 */
 .controls {
-  margin-top: 15px;
+  height: 600px;
+  padding: 15px 0;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .constrols_navigator {
+  display: flex;
   margin-bottom: 20px;
   width: 180px;
   height: 30px;
+}
+.navigator_color {
+  width: 50%;
+}
+.navigator_color.selected {
+  border: 2px solid red;
+}
+.navigator_color#firstColor {
   background-color: black;
+}
+.navigator_color#secondColor {
+  background-color: white;
 }
 .controls_range {
   display: flex;
@@ -196,6 +213,7 @@ body {
   width: 40px;
   border: 1px gray;
   font-size: 12px;
+  text-align: center;
 }
 
 .controls .controls_range {
@@ -209,11 +227,12 @@ body {
 .controls .controls_colors {
   width: 200px;
   height: 300px;
-  padding: 10px 0;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-content: flex-start;
   flex-wrap: wrap;
+  padding: 10px 12px;
+  box-sizing: border-box;
   overflow-x: auto;
   overflow-y: auto;
 }
@@ -250,7 +269,7 @@ body {
   margin-right: 10px;
 }
 .function_btns {
-  margin-top: 80px;
+  margin-top: 20px;
 }
 
 .source_site {

@@ -23,6 +23,7 @@
           <button id="jsTool_pen" class="tool selected">Pen</button>
           <button id="jsTool_pen_r" class="tool">Round Pen</button>
           <button id="jsTool_fill" class="tool">Fill</button>
+          <button id="jsTool_fill_gradient" class="tool">Gradient Fill</button>
           <button id="jsTool_square" class="tool">Squre</button>
           <button id="jsTool_square_fill" class="tool">Squre Fill</button>
           <button id="jsTool_square_fill_eraser" class="tool">
@@ -31,12 +32,15 @@
         </div>
       </div>
       <!-- 중앙 : 캔버스 -->
-      <div>
+      <div class="canvasSpace">
         <canvas id="jsCanvas" class="canvas"></canvas>
       </div>
       <!-- 우측 : 색상 및 기능 -->
       <div class="controls">
-        <div class="constrols_navigator"></div>
+        <div class="constrols_navigator">
+          <div class="navigator_color selected" id="firstColor"></div>
+          <div class="navigator_color" id="secondColor"></div>
+        </div>
         <div class="controls_range">
           <div class="controls_container">
             <div><span class="controls_range_span">size</span></div>
