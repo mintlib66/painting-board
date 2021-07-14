@@ -17,8 +17,9 @@ const pickColorBtn = document.querySelector("#pickColorBtn");
 const colorPicker = document.querySelector("#colorPicker");
 
 const settingBtn = document.querySelector("#jsSetting");
-const clearBtn = document.querySelector("#jsClear");
 const saveBtn = document.querySelector("#jsSave");
+const clearBtn = document.querySelector("#jsClear");
+const undoBtn = document.querySelector("#jsUndo");
 
 //초기값
 const INITIAL_CANVAS_SIZE = 600;
@@ -44,13 +45,15 @@ let colorCode = colorPicker.value;
 
 let tool = "pen";
 let painting = false;
-let filling = false;
-let fillingGradient = false;
-let drawingSquare = false;
 
 let strokeSize = INITIAL_SIZE;
 let opacity = INITIAL_ALPHA;
 let start_x, start_y;
+
+//실행취소를 위한 history
+const MAX_HISTORY_SIZE = 20;
+let historyArray = [];
+let historyStep = -1;
 
 //실제 픽셀배율 설정
 canvas.width = INITIAL_CANVAS_SIZE;
@@ -64,6 +67,8 @@ ctx.strokeStyle = INITIAL_FIRST_COLOR;
 ctx.fillStyle = INITIAL_FIRST_COLOR;
 ctx.lineWidth = INITIAL_SIZE
 ctx.globalAlpha = INITIAL_ALPHA;
+
+addHistory();
 
 
 /* ---------------- 캔버스와 그리기 관련 함수 --------------- */
@@ -88,16 +93,18 @@ function startPainting() {
     painting = true;
 }
 function stopPainting() {
-    painting = false;
-
+    if(painting == true){
+        addHistory();
+    }
+    painting = false;   
 }
 function fillCanvas(){
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    addHistory();
 }
 function startGradientFillCanvas(event){
     start_x = event.offsetX;
     start_y = event.offsetY;
-    fillingGradient = true;
 }
 function stopGradientFillCanvas(event){
     const x = event.offsetX;
@@ -107,31 +114,30 @@ function stopGradientFillCanvas(event){
     gradient.addColorStop(1, nowSecondColor);
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-    fillingGradient = false;
+    addHistory();
 }
 
 function startDrawing(event){
     start_x = event.offsetX;
     start_y = event.offsetY;
-    drawingSquare = true;
 }
 function stopDrawing(event){
     const x = event.offsetX;
     const y = event.offsetY;
     ctx.strokeRect(x, y, start_x - x, start_y - y);
-    drawingSquare = false
+    addHistory();
 }
 function stopDrawingFill(event){
     const x = event.offsetX;
     const y = event.offsetY;
     ctx.fillRect(x, y, start_x - x, start_y - y);
-    drawingSquare = false
+    addHistory();
 }
 function stopDrawingFillEraser(event){
     const x = event.offsetX;
     const y = event.offsetY;
     ctx.clearRect(x, y, start_x - x, start_y - y);
-    drawingSquare = false
+    addHistory();
 }
 
 function onMouseMove(event) {
@@ -170,6 +176,7 @@ function openModal(){
                 <div class="modal_content_label">
                 height<input type="number" id="input_size_height" value="${canvasHeight}" />px
                 </div>
+                <div class="modal_annotation">※If canvas size is changed, <br/> history is deleted.</div>
             </div>
             <div class="btns modal_btns">
                 <button id="jsModalOK">OK</button>
@@ -188,8 +195,6 @@ function closeModal(){
     const modal = document.querySelector(".modal_bg");
     document.body.removeChild(modal);
 }
-
-
 
 //좌측 툴바 클릭 이벤트
 function toolBtnClick(event){
@@ -447,6 +452,7 @@ function UpdateCanvasSize(){
         canvasHeight = input_height;
         initializeCanvas();
         closeModal();
+        initializeHistory();
     }   
 }
 
@@ -473,7 +479,29 @@ function handleSaveClick() {
 
 //실행 취소 기능
 function undoCanvas(){
-    
+    if(historyStep > 0){
+        let canvasPic = new Image();
+        canvasPic.src = historyArray[historyStep-1];
+        canvasPic.onload = function () {
+            ctx.drawImage(canvasPic, 0, 0);
+        }
+        historyStep --;
+    }
+}
+//히스토리 추가
+function addHistory(){
+    if(historyStep+1 > MAX_HISTORY_SIZE){
+        historyArray.shift();
+    }else {
+        historyStep ++;
+    }
+    historyArray.push(canvas.toDataURL());
+}
+//히스토리 초기화(캔버스 사이즈 변경 시)
+function initializeHistory(){
+    historyArray = [];
+    historyStep = -1;
+    addHistory();
 }
 
 /* ---------------- 이벤트 리스너 --------------- */
@@ -497,6 +525,9 @@ if (clearBtn) {
 };
 if (saveBtn) {
     saveBtn.addEventListener("click", handleSaveClick);
+};
+if (undoBtn) {
+    undoBtn.addEventListener("click", undoCanvas);
 };
 
 if (colors) {
@@ -531,7 +562,6 @@ if (pickColorBtn) {
 if (settingBtn) {
     settingBtn.addEventListener("click", openModal);
 };
-
 
 if (toolBtns) {
     Array.from(toolBtns).forEach( btn => btn.addEventListener("click", toolBtnClick));
