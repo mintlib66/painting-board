@@ -164,11 +164,14 @@ body {
   margin: 15px;
 }
 .canvas {
-  width: 600px;
+  width: 400px;
   height: 600px;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.3);
+}
+.canvas:hover {
+  cursor: crosshair;
 }
 
 /* 우측 컨트롤바 */
@@ -275,6 +278,10 @@ body {
 }
 .function_btns {
   margin-top: 20px;
+  width: 200px;
+}
+.function_btns button {
+  margin-bottom: 2px;
 }
 
 .source_site {

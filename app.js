@@ -20,6 +20,7 @@ const settingBtn = document.querySelector("#jsSetting");
 const saveBtn = document.querySelector("#jsSave");
 const clearBtn = document.querySelector("#jsClear");
 const undoBtn = document.querySelector("#jsUndo");
+const redoBtn = document.querySelector("#jsRedo");
 
 //초기값
 const INITIAL_CANVAS_SIZE = 600;
@@ -30,7 +31,7 @@ const INITIAL_FIRST_COLOR = "black";
 const INITIAL_SECOND_COLOR = "white";
 const INITIAL_SIZE = "2.5";
 const MIN_BRUSH_SIZE = "0.1";
-const MAX_BRUSH_SIZE = "10";
+const MAX_BRUSH_SIZE = "20";
 const INITIAL_ALPHA = "1.0";
 
 //변동값 설정
@@ -56,17 +57,21 @@ let historyArray = [];
 let historyStep = -1;
 
 //실제 픽셀배율 설정
-canvas.width = INITIAL_CANVAS_SIZE;
-canvas.height = INITIAL_CANVAS_SIZE;
+initializeCanvas();
 
 //기본 설정값 초기화
 ctx.fillStyle = "white";
-ctx.fillRect(0, 0, INITIAL_CANVAS_SIZE, INITIAL_CANVAS_SIZE);
+ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
 ctx.strokeStyle = INITIAL_FIRST_COLOR;
 ctx.fillStyle = INITIAL_FIRST_COLOR;
 ctx.lineWidth = INITIAL_SIZE
 ctx.globalAlpha = INITIAL_ALPHA;
+
+sizeNumber.min = MIN_BRUSH_SIZE;
+sizeRange.min = MIN_BRUSH_SIZE;
+sizeNumber.max = MAX_BRUSH_SIZE;
+sizeRange.max = MAX_BRUSH_SIZE;
 
 addHistory();
 
@@ -79,9 +84,6 @@ function initializeCanvas(){
 
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
-
-    ctx.fillStyle = "white";
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     //브러시 크기 및 색상 설정은 유지
     ctx.lineWidth = sizeRange.value;
@@ -457,14 +459,8 @@ function UpdateCanvasSize(){
 }
 
 //리셋 버튼 기능
-function clearClick() {
-    const temp_color = ctx.fillStyle;
-    const temp_alpha = ctx.globalAlpha;
-    ctx.fillStyle = "white";
-    ctx.globalAlpha = "1";
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-    ctx.fillStyle = temp_color;
-    ctx.globalAlpha = temp_alpha;
+function clearCanvas() {
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 }
 
 //저장 버튼 기능
@@ -477,6 +473,21 @@ function handleSaveClick() {
     link.click();
 }
 
+//히스토리 추가
+function addHistory(){
+    if(historyStep+1 > MAX_HISTORY_SIZE){
+        historyArray.shift();
+    }else {
+        historyStep ++;
+    }
+    historyArray.push(canvas.toDataURL());
+}
+//히스토리 초기화
+function initializeHistory(){
+    historyArray = [];
+    historyStep = -1;
+    addHistory();
+}
 //실행 취소 기능
 function undoCanvas(){
     if(historyStep > 0){
@@ -488,20 +499,16 @@ function undoCanvas(){
         historyStep --;
     }
 }
-//히스토리 추가
-function addHistory(){
-    if(historyStep+1 > MAX_HISTORY_SIZE){
-        historyArray.shift();
-    }else {
+//재실행 기능
+function redoCanvas(){
+    if(historyStep+1 < historyArray.length){
+        let canvasPic = new Image();
+        canvasPic.src = historyArray[historyStep+1];
+        canvasPic.onload = function () {
+            ctx.drawImage(canvasPic, 0, 0);
+        }
         historyStep ++;
     }
-    historyArray.push(canvas.toDataURL());
-}
-//히스토리 초기화(캔버스 사이즈 변경 시)
-function initializeHistory(){
-    historyArray = [];
-    historyStep = -1;
-    addHistory();
 }
 
 /* ---------------- 이벤트 리스너 --------------- */
@@ -521,13 +528,16 @@ if (navigator) {
 };
 
 if (clearBtn) {
-    clearBtn.addEventListener("click", clearClick);
+    clearBtn.addEventListener("click", clearCanvas);
 };
 if (saveBtn) {
     saveBtn.addEventListener("click", handleSaveClick);
 };
 if (undoBtn) {
     undoBtn.addEventListener("click", undoCanvas);
+};
+if (redoBtn) {
+    redoBtn.addEventListener("click", redoCanvas);
 };
 
 if (colors) {
