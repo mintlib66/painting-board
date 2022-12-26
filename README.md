@@ -1,9 +1,11 @@
 # painting-board
 
-Painting board for web
+웹에서 사용할 수 있는 페이팅 보드 페이지입니다.  
 
-[▶ Go to demo site](https://mintlib66.github.io/painting-board/)  
+[▶ 데모 웹사이트](https://mintlib66.github.io/painting-board/)  
 ![screenshot](./img/demo_capture.JPG)
+
+개발: HTML, CSS, JS
 
 - header icons(top) : You can change canvas size or download image.
 - tool buttons(left) : You can change painting tool.
